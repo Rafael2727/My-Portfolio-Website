@@ -1,50 +1,22 @@
-// Initialize Swiper
-const swiper = new Swiper(".mySwiper", {
-  direction: "horizontal",
-  loop: false,
-  slidesPerView: 1,
-  spaceBetween: 0,
-  speed: 600,
-  mousewheel: true,
-  keyboard: {
-    enabled: true,
-  },
-});
+  document.addEventListener("DOMContentLoaded", () => {
+      const swiper = new Swiper(".mySwiper", {
+        direction: "horizontal",
+        loop: false,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        keyboard: { enabled: true },
+        mousewheel: true,
+      });
 
-// Sidebar navigation links
-const links = document.querySelectorAll(".Links li");
+      // Navigation handling
+      const navItems = document.querySelectorAll(".Links li");
+      window.Navigate = (index) => {
+        swiper.slideTo(index);
+        navItems.forEach((li, i) => li.classList.toggle("activeLink", i === index));
+      };
 
-// Function to navigate slides
-function Navigate(index) {
-  swiper.slideTo(index);
-  updateActiveLink(index);
-}
-
-// Update active link on click or slide change
-function updateActiveLink(index) {
-  links.forEach((link, i) => {
-    link.classList.toggle("activeLink", i === index);
-  });
-}
-
-// Change active link when slide changes manually
-swiper.on("slideChange", () => {
-  updateActiveLink(swiper.activeIndex);
-});
-
-// Optional: Add hover sound or animations (example)
-links.forEach((link) => {
-  link.addEventListener("mouseenter", () => {
-    link.style.transform = "scale(1.05)";
-  });
-  link.addEventListener("mouseleave", () => {
-    link.style.transform = "scale(1)";
-  });
-});
-
-// Optional: Handle “Scroll for next slide” click or keypress
-document.querySelectorAll(".slide-help").forEach((el) => {
-  el.addEventListener("click", () => {
-    swiper.slideNext();
-  });
-});
+      swiper.on("slideChange", () => {
+        const active = swiper.activeIndex;
+        navItems.forEach((li, i) => li.classList.toggle("activeLink", i === active));
+      });
+    });
